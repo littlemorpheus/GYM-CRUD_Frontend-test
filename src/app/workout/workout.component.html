@@ -1,0 +1,39 @@
+<!--Pick a Option & Save as a Cookie-->
+<!--
+    To make things easier just do URLs
+    Then save specfic thing in backend
+-->
+
+<div class="navbar">
+    <h1>Workout:</h1>
+    <div class="dropdown">
+        <button class="dropbtn">
+            <h1 id="picked_workout">{{TITLE}}</h1>
+        </button>
+        <div class="dropdown-content">
+            <div class="links" *ngFor="let item of workout_list" (click)="onClick(item)">{{item.name}}</div>
+        </div>
+    </div>
+</div>
+
+<!--Dynamic: [ITEM] depends on workout-->
+<nav>
+    <ul>
+        <!--Dynamic: dependibg on workout-->
+        <li><span>Excercise 1</span></li>
+        <li><span>Excercise 2</span></li>
+        <li><span>Excercise 3</span></li>
+        <li><span>Excercise 4</span></li>
+        <li><span>Excercise 5</span></li>
+    </ul>
+</nav>
+<div>
+    <!--Dynamic: X chnages with reps-->
+    <span id="progress-field">0</span><span>/</span><span>70</span>
+</div>
+<!--
+    Entered reps on press of button is summed into X
+        X for easch saved in session via JS
+-->
+<input type="number" min="0" max="125" id="rep-input">
+<button>FINISHED</button>

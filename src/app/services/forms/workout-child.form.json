@@ -1,0 +1,60 @@
+{
+    "workout-children": [
+        {
+            "name": "name",
+            "label": "Workout Section",
+            "value": "",
+            "type": "text",
+            "validators": {}
+        },
+        {
+            "name": "level_one",
+            "label": "Level One",
+            "value": "",
+            "type": "select",
+            "validators": {}
+        },
+        {
+            "name": "level_two",
+            "label": "Level Two",
+            "value": "",
+            "type": "select",
+            "validators": {}
+        },
+        {
+            "name": "level_three",
+            "label": "Level Three",
+            "value": "",
+            "type": "select",
+            "validators": {}
+        },
+        {
+            "name": "level_four",
+            "label": "Level Four",
+            "value": "",
+            "type": "select",
+            "validators": {}
+        },
+        {
+            "name": "gym_replacement",
+            "label": "Gym Replacement",
+            "value": "",
+            "type": "select",
+            "validators": {}
+        },
+        {
+            "name": "overall_reps",
+            "label": "Overall Reps",
+            "value": "",
+            "type": "range",
+            "validators": {}
+        },
+        {
+            "name": "minimum_reps",
+            "label": "Minimum Reps",
+            "value": "",
+            "type": "range",
+            "validators": {}
+        }
+    ]
+}

@@ -1,0 +1,9 @@
+<h1>List {{TITLE_REF[ITEM]}}</h1>
+<!--Dynamic: dependibg on list-->
+
+<ul >
+    <li *ngFor="let item of list"><span>{{item.name}}</span></li>
+    <li id="add_item" (click)="onClick()" *ngIf="!add_item && TITLE_REF[ITEM]"><span class="sm-chr">+</span>Add</li>
+</ul>
+
+<item-add *ngIf="add_item"></item-add>

@@ -1,0 +1,17 @@
+<h1>Add [ITEM]</h1>
+<form><!--ngForm directive-->
+    <ul>
+        <!--Angular has functionality for this but I cba to learn it rn-->
+        <li *ngFor="let item of list">
+            <label>{{item.label}} </label>
+            <input *ngIf="item.type != 'select'" [type]="item.type">
+            <select *ngIf="item.type == 'select'">
+                <option *ngFor="let jtem of child_list">{{jtem.name}}</option>
+                <!--<option>Other</option>-->
+            </select>
+            <!--Angular has functionality for this but I cba to learn it rn-->
+            <!--<li *ngFor="let item of list" [innerHtml]="generateInput(item)"></li>-->
+        </li>
+        <li><input type="button" value="Add"></li>
+    </ul>
+</form>

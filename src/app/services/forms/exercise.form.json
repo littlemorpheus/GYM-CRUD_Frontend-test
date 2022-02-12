@@ -1,0 +1,18 @@
+{
+    "exercises": [
+        {
+            "name": "name",
+            "label": "Exercise Name",
+            "value": "",
+            "type": "texr",
+            "validators": {}
+        },
+        {
+            "name": "images",
+            "label": "Media: Images",
+            "value": "",
+            "type": "image",
+            "validators": {}
+        }
+    ]
+}

@@ -1,0 +1,18 @@
+{
+    "workouts": [
+        {
+            "name": "name",
+            "label": "Workout",
+            "value": "",
+            "type": "text",
+            "validators": {}
+        },
+        {
+            "name": "section",
+            "label": "Workout Section",
+            "value": "",
+            "type": "select",
+            "validators": {}
+        }
+    ]
+}
