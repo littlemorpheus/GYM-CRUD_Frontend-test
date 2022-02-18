@@ -1,18 +1,18 @@
-import { WorkoutChild, WorkoutChild_md } from "./workout-child.model";
+import { WorkoutChild } from "./workout-child.model";
 
 export interface Workout {
-    id: string;
+    _id: string;
     name: string;
     sections: string[];//ObjectID
 }
 
-export interface Workout_md {
+export interface Workout1 {
     id: string;
     name: string;
     sections: WorkoutChild[];
 }
 
-export interface Workout_lg {
+/*export interface Workout_lg {
     name: string;
     sections: WorkoutChild_md[];
-}
+}*/

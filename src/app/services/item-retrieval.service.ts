@@ -6,7 +6,7 @@ import { catchError, tap } from 'rxjs/operators';
 
 import { Exercise } from '../services/models/exercise.model';
 import { WorkoutChild } from './models/workout-child.model';
-import { Workout } from '../services/models/workout.model';
+import { Workout, Workout1 } from '../services/models/workout.model';
 
 @Injectable({
   providedIn: 'root'
@@ -20,14 +20,14 @@ export class ItemRetrievalService {
   private _apiURL = 'http://localhost:4242/api/'
 
   /*        GET        */
-  get(id: String, item: String) {
+  get(id: String, item: String, version = 0) {
     switch (item) {
       case 'exercise':
         return this.getExercise(id);
       case 'workout-section':
-        return this.getWorkoutChild(id);
+        return this.getWorkoutChild(id, version);
       case 'workout':
-        return this.getWorkout(id);
+        return this.getWorkout(id, version);
     }
     return null
     /*
@@ -39,15 +39,20 @@ export class ItemRetrievalService {
     */
    
   }
-  getWorkout(id: String) :Observable<Workout> {
-    var url = this._apiURL + 'workout/' + id;
+  getWorkout(id: String, version: number) :Observable<any> {
+    var ext = '';
+    if (version > 0 && version < 3) ext = '/' +version;
+    var url = this._apiURL + 'workout/' + id + ext;
+    console.log(url)
     return this.http.get<Workout>(url).pipe(
       tap(_ => console.log("Fetched single  Workouts")),
       catchError(this.errorHandler<Workout>(`get single workout | id=${id}`))
     )
   }
-  getWorkoutChild(id: String) :Observable<WorkoutChild> {
-    var url = this._apiURL + 'workout-child/' + id;
+  getWorkoutChild(id: String, version: number) :Observable<WorkoutChild> {
+    var ext = '';
+    if (version > 0 && version < 2) ext = '/' +version;
+    var url = this._apiURL + 'workout-child/' + id + ext;
     return this.http.get<WorkoutChild>(url).pipe(
       tap(_ => console.log("Fetched single Workout Child")),
       catchError(this.errorHandler<WorkoutChild>(`get single workout child | id=${id}`))
@@ -103,6 +108,18 @@ export class ItemRetrievalService {
     )
   }
 
+
+  add(formData: FormData, item: String, version = 0) {
+    switch (item) {
+      case 'exercise':
+        return this.addExercise(formData);
+      case 'workout-section':
+        return this.addWorkoutChild(formData);
+      case 'workout':
+        return this.addWorkout(formData);
+    }
+    return null
+  }
   addWorkout(formData: FormData) {
     var url = this._apiURL + 'workout';
     return this.http.post(url, formData)

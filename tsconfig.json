@@ -6,6 +6,7 @@
     
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
+    "strictPropertyInitialization": false,
 
     "paths": {
       "services/*": ["src/app/services/*"],

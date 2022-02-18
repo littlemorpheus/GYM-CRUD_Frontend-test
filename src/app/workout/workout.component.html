@@ -10,30 +10,53 @@
         <button class="dropbtn">
             <h1 id="picked_workout">{{TITLE}}</h1>
         </button>
-        <div class="dropdown-content">
-            <div class="links" *ngFor="let item of workout_list" (click)="onClick(item)">{{item.name}}</div>
+        <div *ngIf="canChangeWorkout" class="dropdown-content">
+            <div class="links" *ngFor="let item of workout_list" (click)="onClickWorkout(item)">{{item.name}}</div>
         </div>
     </div>
 </div>
 
 <!--Dynamic: [ITEM] depends on workout-->
-<nav>
-    <ul>
+<nav *ngIf="current_workout?.sections">
+    <ul class="children-list" >
         <!--Dynamic: dependibg on workout-->
-        <li><span>Excercise 1</span></li>
-        <li><span>Excercise 2</span></li>
-        <li><span>Excercise 3</span></li>
-        <li><span>Excercise 4</span></li>
-        <li><span>Excercise 5</span></li>
+        <div *ngFor="let item of current_workout.sections">
+            <li (click)="onClickChild(item)"
+            *ngIf="(current_workout && canChangeChild) || current_child==item"
+            ><span>{{item.name}}</span></li>
+
+            <ul *ngIf="current_child==item"
+            class="exercise-list">
+
+                <li *ngFor="let jtem of item.variations | keyvalue"
+                (click)="onClickExercise(jtem)"><div *ngIf="jtem.value">
+                    - {{jtem.key}}
+                </div></li>
+            </ul>
+        </div>
     </ul>
 </nav>
-<div>
+<div *ngIf="current_exercise">
     <!--Dynamic: X chnages with reps-->
-    <span id="progress-field">0</span><span>/</span><span>70</span>
-</div>
-<!--
+    <h3>{{current_exercise.key}}: {{current_exercise.value.name}}</h3>
+    <h1><span id="progress-field">{{progress}}</span><span>/</span><span>70</span></h1>
+    <!--
     Entered reps on press of button is summed into X
         X for easch saved in session via JS
 -->
-<input type="number" min="0" max="125" id="rep-input">
-<button>FINISHED</button>
+    <form (submit)="onSubmit($event)">
+        <ul>
+            <li>
+                <input type="number" min="0" max="125" name="prog">
+                <input type="submit" value="Rep Done">
+            </li>
+        </ul>
+    </form>
+    <li><button (click)="finExercise()" [disabled] = "!setDone">Set Done</button></li>
+</div>
+
+<div *ngIf="current_workout">
+    <textarea rows="4" cols="50" placeholder="Notes"></textarea>
+</div>
+
+

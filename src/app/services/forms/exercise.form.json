@@ -1,11 +1,13 @@
 {
-    "exercises": [
+    "controls": [
         {
             "name": "name",
             "label": "Exercise Name",
             "value": "",
-            "type": "texr",
-            "validators": {}
+            "type": "text",
+            "validators": {
+                "required": true
+            }
         },
         {
             "name": "images",

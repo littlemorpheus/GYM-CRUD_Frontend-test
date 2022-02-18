@@ -1,60 +1,67 @@
 {
-    "workout-children": [
+    "controls": [
         {
             "name": "name",
             "label": "Workout Section",
             "value": "",
             "type": "text",
-            "validators": {}
+            "validators": {
+                "required": true
+            }
         },
         {
-            "name": "level_one",
-            "label": "Level One",
+            "name": "variations",
+            "label": "Variations",
             "value": "",
-            "type": "select",
-            "validators": {}
-        },
-        {
-            "name": "level_two",
-            "label": "Level Two",
-            "value": "",
-            "type": "select",
-            "validators": {}
-        },
-        {
-            "name": "level_three",
-            "label": "Level Three",
-            "value": "",
-            "type": "select",
-            "validators": {}
-        },
-        {
-            "name": "level_four",
-            "label": "Level Four",
-            "value": "",
-            "type": "select",
-            "validators": {}
-        },
-        {
-            "name": "gym_replacement",
-            "label": "Gym Replacement",
-            "value": "",
-            "type": "select",
-            "validators": {}
+            "type": "nested",
+            "validators": {
+                "required": true
+            }, "nested": {
+                "controls": [{
+                    "name": "map-key",
+                    "label": "Exercise Name",
+                    "value": "",
+                    "type": "text",
+                    "validators": {
+                        "required": true,
+                        "min": 3
+                    }
+                },
+                {
+                    "name": "map-value",
+                    "label": "Exercise",
+                    "value": "",
+                    "type": "select",
+                    "validators": {
+                        "required": true
+                    }
+                }]
+            }
+            
         },
         {
             "name": "overall_reps",
             "label": "Overall Reps",
-            "value": "",
+            "value": 70,
             "type": "range",
-            "validators": {}
+            "validators": {
+                "required": true,
+                "min": 20,
+                "max": 100,
+                "step": 1
+            }
         },
         {
             "name": "minimum_reps",
             "label": "Minimum Reps",
-            "value": "",
+            "value": 5,
             "type": "range",
-            "validators": {}
+            "validators": {
+                "required": true,
+                "min": 1,
+                "max": 20,
+                "step": 1
+            }
         }
     ]
 }
