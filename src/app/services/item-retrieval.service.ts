@@ -5,8 +5,9 @@ import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
 import { Exercise } from '../services/models/exercise.model';
-import { WorkoutChild } from './models/workout-child.model';
+import { MovementPattern } from './models/movement-pattern.model';
 import { Workout, Workout1 } from '../services/models/workout.model';
+import { WorkoutEntry } from './models/workout-entry.model';
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +26,7 @@ export class ItemRetrievalService {
       case 'exercise':
         return this.getExercise(id);
       case 'workout-section':
-        return this.getWorkoutChild(id, version);
+        return this.getMovementPattern(id, version);
       case 'workout':
         return this.getWorkout(id, version);
     }
@@ -49,13 +50,13 @@ export class ItemRetrievalService {
       catchError(this.errorHandler<Workout>(`get single workout | id=${id}`))
     )
   }
-  getWorkoutChild(id: String, version: number) :Observable<WorkoutChild> {
+  getMovementPattern(id: String, version: number) :Observable<MovementPattern> {
     var ext = '';
     if (version > 0 && version < 2) ext = '/' +version;
     var url = this._apiURL + 'workout-child/' + id + ext;
-    return this.http.get<WorkoutChild>(url).pipe(
+    return this.http.get<MovementPattern>(url).pipe(
       tap(_ => console.log("Fetched single Workout Child")),
-      catchError(this.errorHandler<WorkoutChild>(`get single workout child | id=${id}`))
+      catchError(this.errorHandler<MovementPattern>(`get single workout child | id=${id}`))
     )
   }
   getExercise(id: String) :Observable<Exercise> {
@@ -67,13 +68,13 @@ export class ItemRetrievalService {
   }
 
   /*        GET all        */
-  getAll(item: String) :Observable<Workout[] | WorkoutChild[] | Exercise[]> {
+  getAll(item: String) :Observable<Workout[] | MovementPattern[] | Exercise[]> {
     console.log(item);
     switch (item) {
       case 'exercises':
         return this.getAllExercise();
       case 'workout-children':
-        return this.getAllWorkoutChild();
+        return this.getAllMovementPattern();
       case 'workouts':
         return this.getAllWorkout();
     }
@@ -93,11 +94,11 @@ export class ItemRetrievalService {
       catchError(this.errorHandler<Workout[]>(`get all workout`))
     )
   }
-  getAllWorkoutChild() :Observable<WorkoutChild[]> {
+  getAllMovementPattern() :Observable<MovementPattern[]> {
     var url = this._apiURL + 'workout-children';
-    return this.http.get<WorkoutChild[]>(url).pipe(
-      tap(_ => console.log("Fetched all Workout Children")),
-      catchError(this.errorHandler<WorkoutChild[]>(`get all workout children`))
+    return this.http.get<MovementPattern[]>(url).pipe(
+      tap(_ => console.log("Fetched all Movement Patterns")),
+      catchError(this.errorHandler<MovementPattern[]>(`get all movement patterns`))
     )
   }
   getAllExercise() :Observable<Exercise[]> {
@@ -113,8 +114,8 @@ export class ItemRetrievalService {
     switch (item) {
       case 'exercise':
         return this.addExercise(formData);
-      case 'workout-section':
-        return this.addWorkoutChild(formData);
+      case 'movement-pattern':
+        return this.addMovementPattern(formData);
       case 'workout':
         return this.addWorkout(formData);
     }
@@ -124,13 +125,17 @@ export class ItemRetrievalService {
     var url = this._apiURL + 'workout';
     return this.http.post(url, formData)
   }
-  addWorkoutChild(formData: FormData) {
+  addMovementPattern(formData: FormData) {
     var url = this._apiURL + 'workout-child';
     return this.http.post(url, formData)
   }
   addExercise(formData: FormData) {
     var url = this._apiURL + 'exercise';
     return this.http.post(url, formData)
+  }
+  addWorkoutEntry(data: WorkoutEntry) {
+    var url = this._apiURL + 'workout-diary';
+    return this.http.post(url, data)
   }
 
   

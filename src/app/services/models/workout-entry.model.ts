@@ -1,17 +1,17 @@
 //Workout Diary
 export interface WorkoutEntry {
     workout_plan: string;//ObjectID
-    completed: CompletedWOSection[];
+    completed: doneMovementPattern[];
     notes: String;
 }
 
-export interface CompletedWOSection {
+export interface doneMovementPattern {
     workout_section: string;//ObjectID
-    completed_exercises: CompletedExercise[];
+    completed_sets: doneSet[];
 }
 
-export interface CompletedExercise {
+export interface doneSet {
     exercise: string;//ObjectID
-    set_number: number;
+    set_index: number;
     reps: number;
 }

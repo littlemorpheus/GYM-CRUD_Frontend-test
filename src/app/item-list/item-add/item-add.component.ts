@@ -5,7 +5,7 @@ import { ItemRetrievalService } from 'services/item-retrieval.service';
 import { ITEM_REFRENCE, TITLE_REFRENCE} from '../misc/refrence';
 
 import { Exercise } from 'services/models/exercise.model';
-import { WorkoutChild } from 'services/models/workout-child.model';
+import { MovementPattern } from 'services/models/movement-pattern.model';
 import { Workout } from 'services/models/workout.model';
 
 import exercise_data from 'services/forms/exercise.form.json';

@@ -4,58 +4,72 @@
     Then save specfic thing in backend
 -->
 
-<div class="navbar">
+<div class="navbar" *ngIf="!workoutDone">
     <h1>Workout:</h1>
     <div class="dropdown">
         <button class="dropbtn">
             <h1 id="picked_workout">{{TITLE}}</h1>
         </button>
         <div *ngIf="canChangeWorkout" class="dropdown-content">
-            <div class="links" *ngFor="let item of workout_list" (click)="onClickWorkout(item)">{{item.name}}</div>
+            <div class="links" *ngFor="let item of workout_list" (click)="setWorkout(item)">{{item.name}}</div>
         </div>
     </div>
 </div>
 
 <!--Dynamic: [ITEM] depends on workout-->
-<nav *ngIf="current_workout?.sections">
-    <ul class="children-list" >
-        <!--Dynamic: dependibg on workout-->
-        <div *ngFor="let item of current_workout.sections">
-            <li (click)="onClickChild(item)"
-            *ngIf="(current_workout && canChangeChild) || current_child==item"
-            ><span>{{item.name}}</span></li>
+<nav *ngIf="current_workout?.sections && !workoutDone">
+    <!-- IF current workout has movement patterns too it-->
 
-            <ul *ngIf="current_child==item"
-            class="exercise-list">
+    <ul class="children-list">
+        <div *ngFor="let item of current_workout!.sections">
+            <!-- FOR Loop through Movement Pattern in Workout Plan-->
+            <li (click)="setMovementPattern(item)"
+            *ngIf="showMovementPatternDone(item)"
+            >
+                <span>{{item.name}}</span>
+                <ul 
+                    *ngIf="current_movement_pattern===item"
+                    class="exercise-list"
+                >
 
-                <li *ngFor="let jtem of item.variations | keyvalue"
-                (click)="onClickExercise(jtem)"><div *ngIf="jtem.value">
-                    - {{jtem.key}}
-                </div></li>
-            </ul>
+                    <!-- FOR Loop through Exercises(Level, Exercise) in Movement Pattern-->
+                    <li 
+                        *ngFor="let jtem of item!.variations | keyvalue"
+                        (click)="setExercise(jtem.value)"
+                    >
+                        <span>{{jtem.key}}</span>
+                    </li>
+                </ul>
+            </li>
         </div>
     </ul>
 </nav>
-<div *ngIf="current_exercise">
+
+<!--        Exercise Widget        -->
+<div *ngIf="current_exercise && !workoutDone">
+
     <!--Dynamic: X chnages with reps-->
-    <h3>{{current_exercise.key}}: {{current_exercise.value.name}}</h3>
+    <hr>
+    <h3>{{current_exercise!.name}}</h3>
     <h1><span id="progress-field">{{progress}}</span><span>/</span><span>70</span></h1>
     <!--
     Entered reps on press of button is summed into X
         X for easch saved in session via JS
 -->
-    <form (submit)="onSubmit($event)">
+    <form (submit)="onSetDone($event)">
         <ul>
             <li>
                 <input type="number" min="0" max="125" name="prog">
-                <input type="submit" value="Rep Done">
+                <input type="submit" value="Set Done">
             </li>
         </ul>
     </form>
-    <li><button (click)="finExercise()" [disabled] = "!setDone">Set Done</button></li>
+    <li><button (click)="onMovementPatternDone()" [disabled] = "!setDone">Movement Pattern Done</button></li>
 </div>
 
-<div *ngIf="current_workout">
+<br>
+
+<div *ngIf="current_workout !workoutDone">
     <textarea rows="4" cols="50" placeholder="Notes"></textarea>
 </div>
 

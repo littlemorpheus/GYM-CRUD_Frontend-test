@@ -1,4 +1,4 @@
-import { WorkoutChild } from "./workout-child.model";
+import { MovementPattern1 } from "./movement-pattern.model";
 
 export interface Workout {
     _id: string;
@@ -7,9 +7,9 @@ export interface Workout {
 }
 
 export interface Workout1 {
-    id: string;
+    _id: string;
     name: string;
-    sections: WorkoutChild[];
+    sections: MovementPattern1[];
 }
 
 /*export interface Workout_lg {
