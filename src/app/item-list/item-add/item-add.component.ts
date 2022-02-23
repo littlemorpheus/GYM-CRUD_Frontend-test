@@ -28,8 +28,9 @@ export class ItemAddComponent implements OnInit {
   }
   form_data: JSONFormData;
   myForm: FormGroup = new FormGroup({});
-  nestedForms: FormArray = new FormArray([]);
-  defualt_nested_form: FormGroup= new FormGroup({});
+  //nestedForms: FormArray = new FormArray([]);
+  nested_form_name = '';
+  nestedControls: JSONFormData;
   //cause only one of each usally can just use the controls dict as ref
   //but these onlyu refer to rules for one entry
   //as we want mutiple entries need an array to keep track
@@ -123,9 +124,13 @@ export class ItemAddComponent implements OnInit {
     }
     var form: any
     if (control.type == "nested" && control.nested) {
-      this.defualt_nested_form = this.createForm(control.nested);
-      form = this._fb.array([this.defualt_nested_form]);
-      this.nestedForms = form
+      this.nestedControls = control.nested;
+      form = this._fb.array([this.createForm(control.nested)]);
+      
+      console.log('control.nested')
+      console.log(control.nested)
+
+      this.nested_form_name = control.name;
       //this.addNested(form, control.name)
     } else {
       form = this._fb.control(control.value, validatorsToAdd)
@@ -175,10 +180,14 @@ export class ItemAddComponent implements OnInit {
   }
 
   addNested() {
-    this.nestedForms.push(this.defualt_nested_form)
+    this.nestedForms.push(this.createForm(this.nestedControls))
   }
   delNested(index: number) {
     this.nestedForms.removeAt(index);
+  }
+
+  get nestedForms() {
+    return this.myForm.get(this.nested_form_name) as FormArray
   }
 
 }
