@@ -6,4 +6,4 @@
     <li id="add_item" (click)="onClick()" *ngIf="!add_item && TITLE_REF[ITEM]"><span class="sm-chr">+</span>Add</li>
 </ul>
 
-<item-add *ngIf="add_item"></item-add>
+<item-add *ngIf="add_item" (itemAdded) = "itemAdded($event)"></item-add>

@@ -67,4 +67,8 @@ export class ItemListComponent implements OnInit {
     this.list = [];
   }
 
+  itemAdded(event: any) {
+    if (event) this.internalOnInit();
+  }
+
 }

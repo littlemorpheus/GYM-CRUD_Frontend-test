@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { ItemRetrievalService } from 'services/item-retrieval.service';
@@ -20,6 +20,8 @@ import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
   styleUrls: ['./item-add.component.sass']
 })
 export class ItemAddComponent implements OnInit {
+
+  @Output() itemAdded = new EventEmitter<boolean>();
 
   form_options: itemForm = {
     'exercises': exercise_data,
@@ -176,7 +178,16 @@ export class ItemAddComponent implements OnInit {
     console.log("Form")
     console.log(form)
     console.log(this.ITEM)
-    this._Itemreterieval.add(form, this.ITEM)?.subscribe(console.log)
+    this._Itemreterieval.add(form, this.ITEM)?.subscribe(
+      res => { 
+        console.log(res);
+        if ('err' in res) console.log('Theres an error');
+        if ('msg' in res) {
+          console.log('Sucess');
+          this.itemAdded.emit(true);
+        }
+      }
+    )
   }
 
   addNested() {
