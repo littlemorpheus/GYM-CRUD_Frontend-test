@@ -171,8 +171,7 @@ export class ItemAddComponent implements OnInit {
     console.log("Form")
     console.log(form)
     console.log(this.ITEM)
-    var msg = this._Itemreterieval.add(form, this.ITEM)
-    console.log(msg);
+    this._Itemreterieval.add(form, this.ITEM)?.subscribe(console.log)
   }
 
   addNested() {

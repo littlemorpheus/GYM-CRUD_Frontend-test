@@ -142,7 +142,7 @@ export class ItemRetrievalService {
   }
   addExercise(formData: FormData) {
     var url = this._apiURL + 'exercise';
-    return this.http.post(url, formData).pipe(
+    return this.http.post(url, formData, this.httpOptions).pipe(
       tap(_ => console.log("Sent of Exercise")),
       catchError(this.errorHandler<Workout[]>(`POST a exercise`))
     )

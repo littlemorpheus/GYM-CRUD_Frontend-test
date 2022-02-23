@@ -29,7 +29,9 @@
             >
                 <option *ngFor="let item of child_list" [value]="item._id">{{item.name}}</option>
             </select>
+            
             <!--Nested (for Exercises in Movement Pattern)-->
+            <!-- Nested (for Movement Pattern in Workout) -->
             <div 
             class="nested"
             *ngIf="isNested(control.type)"

@@ -13,9 +13,19 @@
             "name": "section",
             "label": "Workout Section",
             "value": "",
-            "type": "select",
+            "type": "nested",
             "validators": {
                 "required": true
+            }, "nested": {
+                "controls": [{
+                    "name": "map-value",
+                    "label": "Exercise",
+                    "value": "",
+                    "type": "select",
+                    "validators": {
+                        "required": true
+                    }
+                }]
             }
         }
     ]

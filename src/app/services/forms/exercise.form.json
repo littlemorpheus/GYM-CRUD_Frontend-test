@@ -12,7 +12,7 @@
         {
             "name": "images",
             "label": "Media: Images",
-            "value": "",
+            "value": [],
             "type": "image",
             "validators": {}
         }
