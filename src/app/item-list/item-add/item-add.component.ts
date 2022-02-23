@@ -167,34 +167,19 @@ export class ItemAddComponent implements OnInit {
 
   onSubmit() {
     //POST
-    //this._Itemreterieval.add(this.myForm, this.ITEM)
+    var form = this.myForm.value;
     console.log("Form")
-    console.log(this.myForm)
+    console.log(form)
+    console.log(this.ITEM)
+    var msg = this._Itemreterieval.add(form, this.ITEM)
+    console.log(msg);
   }
 
-  /*getNested(controls: JSONFormData, name: String) {
-    /*[
-      {
-        "name": FormArray[FormGroup]
-      }
-    ]
-    //Dictionary with all Nested Forms Created, w/ one element in FormArray
-    //As added an element is added to the FormArray
-    for (let [key, val] of Object.entries(this.nestedForms[0])) {
-      //return FormArray which correlates to the name(key)
-      if (name == key) return val;//this.createForm(controls);
-    }
-  }*/
   addNested() {
     this.nestedForms.push(this.defualt_nested_form)
   }
   delNested(index: number) {
     this.nestedForms.removeAt(index);
-  }
-
-  output(data: any) {
-    console.log("Output Procdure: ")
-    console.log(data)
   }
 
 }

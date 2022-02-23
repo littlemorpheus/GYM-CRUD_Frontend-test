@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
@@ -19,6 +19,11 @@ export class ItemRetrievalService {
   ) { }
 
   private _apiURL = 'http://localhost:4242/api/'
+  private httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type':  'application/json',
+    })
+  };
 
   /*        GET        */
   get(id: String, item: String, version = 0) {
@@ -112,30 +117,42 @@ export class ItemRetrievalService {
 
   add(formData: FormData, item: String, version = 0) {
     switch (item) {
-      case 'exercise':
+      case 'exercises':
         return this.addExercise(formData);
-      case 'movement-pattern':
+      case 'workout-children':
         return this.addMovementPattern(formData);
-      case 'workout':
+      case 'workouts':
         return this.addWorkout(formData);
     }
     return null
   }
   addWorkout(formData: FormData) {
     var url = this._apiURL + 'workout';
-    return this.http.post(url, formData)
+    return this.http.post(url, formData).pipe(
+      tap(_ => console.log("Sent of Workout")),
+      catchError(this.errorHandler<Workout[]>(`POST a workout`))
+    )
   }
   addMovementPattern(formData: FormData) {
     var url = this._apiURL + 'workout-child';
-    return this.http.post(url, formData)
+    return this.http.post(url, formData).pipe(
+      tap(_ => console.log("Sent of Movement Pattern")),
+      catchError(this.errorHandler<Workout[]>(`POST a movement pattern`))
+    )
   }
   addExercise(formData: FormData) {
     var url = this._apiURL + 'exercise';
-    return this.http.post(url, formData)
+    return this.http.post(url, formData).pipe(
+      tap(_ => console.log("Sent of Exercise")),
+      catchError(this.errorHandler<Workout[]>(`POST a exercise`))
+    )
   }
   addWorkoutEntry(data: WorkoutEntry) {
     var url = this._apiURL + 'workout-diary';
-    return this.http.post(url, data)
+    return this.http.post(url, data).pipe(
+      tap(_ => console.log("Sent of Workout Entry")),
+      catchError(this.errorHandler<Workout[]>(`POST a workout entry`))
+    )
   }
 
   
