@@ -90,12 +90,18 @@ export class ItemAddComponent implements OnInit {
     //Valid, Invalid, Dirty, Pristine, Untouched, Pending
   }
   createLists(item: String) {
-    console.log(item);
-    if (item == 'workouts') item = 'workout-children';
-    if (item == 'workout-children') item = 'exercises'
-    this._Itemreterieval.getAll(item).subscribe(
-      data => this.child_list = data
-    )
+    if (item == 'workouts') {
+      this._Itemreterieval.getAll('workout-children').subscribe(
+        data => this.child_list = data
+      )
+      return
+    }
+    if (item == 'workout-children') {
+      this._Itemreterieval.getAll('exercises').subscribe(
+        data => this.child_list = data
+      )
+      return
+    }
   }
 
   /* Form Logic */
@@ -127,10 +133,8 @@ export class ItemAddComponent implements OnInit {
     var form: any
     if (control.type == "nested" && control.nested) {
       this.nestedControls = control.nested;
+
       form = this._fb.array([this.createForm(control.nested)]);
-      
-      console.log('control.nested')
-      console.log(control.nested)
 
       this.nested_form_name = control.name;
       //this.addNested(form, control.name)
@@ -147,6 +151,7 @@ export class ItemAddComponent implements OnInit {
     var myForm = this._fb.group({})
     for (const control of controls.controls) {
       var item = this.createControl(control)
+      console.log(item)
       myForm.addControl(item[0], item[1]);
     }
     return myForm;
@@ -161,6 +166,10 @@ export class ItemAddComponent implements OnInit {
   }
   isSelect(type: string): boolean {
     if (type == "select") return true;
+    return false;
+  }
+  isSelectMutiple(type: string) {
+    if (type == "select-mutiple") return true;
     return false;
   }
   isRange(type: string): boolean {

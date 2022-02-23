@@ -10,22 +10,12 @@
             }
         },
         {
-            "name": "section",
+            "name": "sections",
             "label": "Workout Section",
             "value": "",
-            "type": "nested",
+            "type": "select-mutiple",
             "validators": {
                 "required": true
-            }, "nested": {
-                "controls": [{
-                    "name": "map-value",
-                    "label": "Exercise",
-                    "value": "",
-                    "type": "select",
-                    "validators": {
-                        "required": true
-                    }
-                }]
             }
         }
     ]

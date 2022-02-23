@@ -74,6 +74,7 @@ export class ItemRetrievalService {
 
   /*        GET all        */
   getAll(item: String) :Observable<Workout[] | MovementPattern[] | Exercise[]> {
+    console.log('getAll()')
     console.log(item);
     switch (item) {
       case 'exercises':
