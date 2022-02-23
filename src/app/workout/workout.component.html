@@ -69,8 +69,11 @@
 
 <br>
 
-<div *ngIf="current_workout !workoutDone">
+<div *ngIf="current_workout">
     <textarea rows="4" cols="50" placeholder="Notes"></textarea>
+</div>
+<div *ngIf="workoutDone">
+    <h1>WORKOUT DONEZO</h1>
 </div>
 
 

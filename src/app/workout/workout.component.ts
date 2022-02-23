@@ -97,6 +97,10 @@ export class WorkoutComponent implements OnInit {
     this.movement_patterns.push(movement_pattern);
     console.log("MOVEMENT PATTERN DONE");
 
+    console.log("this.movement_patterns.length: " +this.movement_patterns.length)
+    console.log("this.current_workout?.sections.length: " +this.current_workout?.sections.length)
+    if (this.movement_patterns.length == this.current_workout?.sections.length) this.onWorkoutDone()
+
     this.newMovementPattern();
   }
   onWorkoutDone() {

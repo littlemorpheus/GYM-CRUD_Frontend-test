@@ -2,6 +2,8 @@
 <form [formGroup]="myForm">
     Value: {{myForm.value | json}}
     <ul>
+        <!--form_data - data for forms-->
+        <!--myForm - the actual form-->
         <li *ngFor="let control of form_data?.controls">
             <label> {{control.label}} |{{control.name}}| </label>
             <label *ngIf="isRange(control.type) "> ({{myForm.get(control.name)?.value}}) </label>
@@ -27,7 +29,7 @@
             >
                 <option *ngFor="let item of child_list" [value]="item._id">{{item.name}}</option>
             </select>
-            <!--Nested-->
+            <!--Nested (for Exercises in Movement Pattern)-->
             <div 
             class="nested"
             *ngIf="isNested(control.type)"
@@ -35,43 +37,45 @@
             >
                 Value: {{myForm.value[control.name] | json}}
                 <!-- control.nested is the criteria-->
-                <!-- I want to loop through the array of groups-->
-                <li class="nested-entry" *ngFor="let form of nestedForms[0][control.name].controls">
-                    <div class="nested-element" *ngFor="let nested_control of control.nested?.controls">
-                        <label> {{nested_control.label}} |{{nested_control.name}}| </label>
-                        <input *ngIf="isInput(nested_control.type)"
-                        [name]="nested_control.name"
-                        [type]="nested_control.type"
-                        [value]="nested_control.value"
+                <!-- Loop through the array of FormGroups*****************-->
+                <!--<li class="nested-entry" *ngFor="let form of nestedForms[0][control.name].controls" [formGroupName]="form">-->
+                
+                
+                <li class="nested-entry" *ngFor="let nestedForm of nestedForms.controls; let i = index" [formGroupName]="i">
+                    <!--[{map-key: map-value}, ...]-->
+                    <!-- nestedForm - Every replicated Form Group for varations-->
+                    <div class="nested-element" *ngFor="let nestedControl of control!.nested?.controls">
+                        <!--[map-key, map-value]-->
+                        <!--nested_controls - Each Form control-->
+                        
+                        <!-- Labels -->
+                        <label> {{nestedControl.label}} |{{nestedControl.name}}| </label>
+
+                        <!--Map Key Text Entry-->
+                        <input *ngIf="isInput(nestedControl.type)"
+                        [name]="nestedControl.name"
+                        [formControlName]="nestedControl.name"
+                        [type]="nestedControl.type"
+                        [value]="nestedControl.value"
                         class="nested-element"
                         />
-                        <select *ngIf="isSelect(nested_control.type)"
-                        formControlName="{{nested_control.name}}"
+
+                        <!--Map Value Select Entry-->
+                        <select *ngIf="isSelect(nestedControl.type)"
+                        [formControlName]="nestedControl.name"
                         class="nested-element"
                         >
                             <option *ngFor="let item of child_list" [value]="item._id">{{item.name}}</option>
                         </select>
+
                     </div>
-                    <button class="nested-element">Delete</button>
+                    <!--Delete One of the nested form groups-->
+                    <button class="nested-element" (click)="delNested(i)">Delete</button>
                 </li>
-                <li class="nested-entry"><button (click))="addNested(control.nested?.controls, control.name)" >Add {{control.label}}</button></li>
+                <!--Add a nested form group-->
+                <li class="nested-entry"><button (click)="addNested()" >Add {{control.label}}</button></li>
             </div>
         </li>
-        <li><button (click)="onSubmit" [disabled]="myForm.invalid">Submit</button></li>
+        <li><button (click)="onSubmit()" [disabled]="myForm.invalid">Submit</button></li>
     </ul>
 </form>
-<!--
-<form>
-    <ul>
-        <li *ngFor="let item of list">
-            <label>{{item.label}} </label>
-            <input *ngIf="item.type != 'select'" [type]="item.type">
-            <select *ngIf="item.type == 'select'">
-                <option *ngFor="let jtem of child_list">{{jtem.name}}</option>
-            </select>
-        </li>
-        <li><input type="button" value="Add"></li>
-    </ul>
-</form>-->
-<!--Angular has functionality for this but I cba to learn it rn-->
-            <!--<li *ngFor="let item of list" [innerHtml]="generateInput(item)"></li>-->

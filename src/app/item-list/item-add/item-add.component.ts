@@ -28,7 +28,8 @@ export class ItemAddComponent implements OnInit {
   }
   form_data: JSONFormData;
   myForm: FormGroup = new FormGroup({});
-  nestedForms: any[] = [];
+  nestedForms: FormArray = new FormArray([]);
+  defualt_nested_form: FormGroup= new FormGroup({});
   //cause only one of each usally can just use the controls dict as ref
   //but these onlyu refer to rules for one entry
   //as we want mutiple entries need an array to keep track
@@ -51,28 +52,37 @@ export class ItemAddComponent implements OnInit {
   ngOnInit(): void {
     //Getting the ITEM from the URL extension
     this._Activatedroute.paramMap.subscribe((params) => {
-      var ITEM = ITEM_REFRENCE[params.get("item") || ''];
+      var item_to_list = params.get("item")
+      var ITEM = ITEM_REFRENCE[item_to_list || ''];
       this.ITEM = ITEM;
       
       var dict : itemForm = Object.assign({}, exercise_data, wo_child_data, workout_data)
       this.list = dict[ITEM];
       this.form_data = this.form_options[ITEM]
-      console.log("form data")
+      console.log("form data: ")
       console.log(this.form_data)
+      
       this.myForm = this.createForm(this.form_options[ITEM]);
       console.log("This isnt even my Final Form:")
       console.log(this.myForm);
       this.myForm.valueChanges.subscribe(console.log)
+
       this.createLists(ITEM);
 
       console.log("This is my Final Form:")
       console.log(this.myForm);
-      console.log(this.nestedForms[0])
-      console.log(this.nestedForms[0]['variations'])
-      for (var item of this.nestedForms[0]['variations'].controls){
-        console.log('1')
-        console.log(item)
-      }
+      console.log("Nested Form:")
+      console.log(this.nestedForms)
+
+      /**
+       * Form Group has group of the controls + variation Form Array
+       *      Form Array has Array of Form Groups
+       *            These Form Groups each have the Form Control for each entry
+       * 
+       * Form Group -> Form Array -> Form Group -> Form Control
+       * Movement Pattern -> Variations -> Single Level Variations -> Name, Exercise
+       * 
+       */
     })
     //Valid, Invalid, Dirty, Pristine, Untouched, Pending
   }
@@ -113,10 +123,9 @@ export class ItemAddComponent implements OnInit {
     }
     var form: any
     if (control.type == "nested" && control.nested) {
-      form = this._fb.array([this.createForm(control.nested), this.createForm(control.nested)]);
-      this.nestedForms.push({
-        [control.name] : form//why is it title
-      })
+      this.defualt_nested_form = this.createForm(control.nested);
+      form = this._fb.array([this.defualt_nested_form]);
+      this.nestedForms = form
       //this.addNested(form, control.name)
     } else {
       form = this._fb.control(control.value, validatorsToAdd)
@@ -160,41 +169,32 @@ export class ItemAddComponent implements OnInit {
     //POST
     //this._Itemreterieval.add(this.myForm, this.ITEM)
     console.log("Form")
-    //console.log(this.myForm)
+    console.log(this.myForm)
   }
 
-  getNested(controls: JSONFormData, name: String) {
+  /*getNested(controls: JSONFormData, name: String) {
     /*[
       {
         "name": FormArray[FormGroup]
       }
-    ]*/
+    ]
     //Dictionary with all Nested Forms Created, w/ one element in FormArray
     //As added an element is added to the FormArray
     for (let [key, val] of Object.entries(this.nestedForms[0])) {
       //return FormArray which correlates to the name(key)
       if (name == key) return val;//this.createForm(controls);
     }
+  }*/
+  addNested() {
+    this.nestedForms.push(this.defualt_nested_form)
   }
-  addNested(form: any, name: string) {
-    /*[
-      {
-        "name": [value, value]
-      }
-    ]*/
-    //const nestedForm = ['', ''];//this.createForm(controls);//Create Form Group
-    console.log("Adding a Form")
-    if (form instanceof FormGroup) {
-      console.log(this.nestedForms[0][name])
-    } else {
-      console.log("Not a Form")
-    }
-    //this.nestedForms[0][name] = form;//nestedForm;
-    //add to FormArray
-    //[array of Forms].push(nestedForm)
+  delNested(index: number) {
+    this.nestedForms.removeAt(index);
   }
-  delNested(ontrols: JSONFormData) {
 
+  output(data: any) {
+    console.log("Output Procdure: ")
+    console.log(data)
   }
 
 }
