@@ -30,7 +30,7 @@
                 <option *ngFor="let item of child_list" [value]="item._id">{{item.name}}</option>
             </select>
 
-            <!--Select-->
+            <!--Select Mutiple-->
             <select *ngIf="isSelectMutiple(control.type)"
             [formControlName]="control.name"
             multiple
@@ -44,7 +44,7 @@
             class="nested"
             *ngIf="isNested(control.type)"
             [formArrayName]="control.name"
-            >
+            >   
                 Value: {{myForm.value[control.name] | json}}
                 <!-- control.nested is the criteria-->
                 <!-- Loop through the array of FormGroups*****************-->
@@ -52,14 +52,14 @@
                 
                 
                 <li class="nested-entry" *ngFor="let nestedForm of nestedForms.controls; let i = index" [formGroupName]="i">
-                    <!--[{map-key: map-value}, ...] or [movement-pattern, ..]-->
+                    <!--[{map-key: map-value}, ...]-->
                     <!-- nestedForm - Every replicated Form Group for varations-->
                     <div class="nested-element" *ngFor="let nestedControl of control!.nested?.controls">
                         <!--[map-key, map-value]-->
                         <!--nested_controls - Each Form control-->
                         
                         <!-- Labels -->
-                        <label> {{nestedControl.label}} |{{nestedControl.name}}| </label>
+                        <label *ngIf="!isHidden(nestedControl.type)"> {{nestedControl.label}} |{{nestedControl.name}}| </label>
 
                         <!--Map Key Text Entry-->
                         <input *ngIf="isInput(nestedControl.type)"
@@ -67,13 +67,21 @@
                         [formControlName]="nestedControl.name"
                         [type]="nestedControl.type"
                         [value]="nestedControl.value"
+                        (change) = "mapping(nestedForm.value)"
                         class="nested-element"
+                        />
+
+                        <input *ngIf="isHidden(nestedControl.type)"
+                        [name]="nestedControl.name"
+                        [formControlName]="nestedControl.name"
+                        [type]="nestedControl.type"
                         />
 
                         <!--Map Value Select Entry-->
                         <select *ngIf="isSelect(nestedControl.type)"
                         [formControlName]="nestedControl.name"
                         class="nested-element"
+                        (change) = "mapping(nestedForm.value)"
                         >
                             <option *ngFor="let item of child_list" [value]="item._id">{{item.name}}</option>
                         </select>

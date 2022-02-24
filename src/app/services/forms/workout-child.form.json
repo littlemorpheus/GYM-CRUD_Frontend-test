@@ -35,6 +35,14 @@
                     "validators": {
                         "required": true
                     }
+                },
+                {
+                    "name": "map",
+                    "label": "",
+                    "value": "",
+                    "type": "hidden",
+                    "validators": {
+                    }
                 }]
             }
             

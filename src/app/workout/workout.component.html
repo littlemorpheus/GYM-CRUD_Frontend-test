@@ -28,17 +28,18 @@
             >
                 <span>{{item.name}}</span>
                 <ul 
-                    *ngIf="current_movement_pattern===item"
+                    *ngIf="current_movement_pattern==item"
                     class="exercise-list"
                 >
-
+                    {{output(item)}}
                     <!-- FOR Loop through Exercises(Level, Exercise) in Movement Pattern-->
-                    <li 
-                        *ngFor="let jtem of item!.variations | keyvalue"
-                        (click)="setExercise(jtem.value)"
-                    >
-                        <span>{{jtem.key}}</span>
+                    <li *ngFor="let jtem of item!.variations" >
+                        
+                        <!--[string, Exercise]-->
+                        <span>{{jtem}}</span>
+                    
                     </li>
+
                 </ul>
             </li>
         </div>

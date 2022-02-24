@@ -105,6 +105,15 @@ export class ItemAddComponent implements OnInit {
   }
 
   /* Form Logic */
+  mapping(item: any) {
+    /*Turns a {map-key: key, map-value: value dict into a map ({map-key: map-value}) */
+    console.log("Mapping Function Working Brilliantly")
+    var key = item['map-key'];
+    var value = item['map-value'];
+    console.log({[key]: value})
+    console.log(item.map)
+    item.map = {[key]: value}
+  }
   createControl(control: JSONFormControls) {
     //Form Control = Form Element
     //console.log(this.form_data);
@@ -164,6 +173,10 @@ export class ItemAddComponent implements OnInit {
     if (options.includes(type)) return true;
     return false;
   }
+  isHidden(type: string) {
+    if (type == "hidden") return true;
+    return false;
+  }
   isSelect(type: string): boolean {
     if (type == "select") return true;
     return false;
@@ -184,6 +197,9 @@ export class ItemAddComponent implements OnInit {
   onSubmit() {
     //POST
     var form = this.myForm.value;
+
+    if (form.variations) form.variations = this.mapOnSubmit(form.variations);
+
     console.log("Form")
     console.log(form)
     console.log(this.ITEM)
@@ -198,6 +214,16 @@ export class ItemAddComponent implements OnInit {
       }
     )
   }
+  mapOnSubmit(old_list: any) {
+    /* variations = [{map-key, map-value, map}, ...] */
+    /*                    Becomes                 */
+    /* vartaions = [{}, {}], where each {} is the value of the map*/
+    var new_list = [];
+    for (var i = 0; i < old_list.length; i++) {
+      new_list.push(old_list[i].map);
+    }
+    return new_list
+  }
 
   addNested() {
     this.nestedForms.push(this.createForm(this.nestedControls))
@@ -208,6 +234,11 @@ export class ItemAddComponent implements OnInit {
 
   get nestedForms() {
     return this.myForm.get(this.nested_form_name) as FormArray
+  }
+
+  output(output: any) {
+    console.log("Outputting Function:")
+    console.log(output)
   }
 
 }

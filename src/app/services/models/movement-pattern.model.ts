@@ -4,7 +4,7 @@ export interface MovementPattern {
     //Key and Sub Parts
     id: string;
     name: string;
-    variations: Map<string, string>;//Sort Later
+    variations: [Map<string, string>];//Sort Later
     overall_reps: number;
     minimum_reps: number;
 }

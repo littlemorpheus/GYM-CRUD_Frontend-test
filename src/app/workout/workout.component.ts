@@ -176,6 +176,7 @@ export class WorkoutComponent implements OnInit {
   }
 
   output(item: any) {
+    console.log("Output Function: ")
     console.log(item)
   }
 }
