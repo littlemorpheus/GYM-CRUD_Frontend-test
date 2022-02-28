@@ -171,6 +171,11 @@ export class WorkoutComponent implements OnInit {
   }
 
   /*        GETTERS & SETTERS        */
+  getDict(item: any) {
+    var key = Object.keys(item)[0];
+    var value = item[key];
+    return [key, value]
+  }
   get progress() {
     return this._repCounter;
   }

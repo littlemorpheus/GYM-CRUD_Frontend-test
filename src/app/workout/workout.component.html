@@ -36,7 +36,8 @@
                     <li *ngFor="let jtem of item!.variations" >
                         
                         <!--[string, Exercise]-->
-                        <span>{{jtem}}</span>
+                        {{output(getDict(jtem))}}
+                        <span (click)="setExercise(getDict(jtem)[1])">{{getDict(jtem)[0]}}</span>
                     
                     </li>
 
