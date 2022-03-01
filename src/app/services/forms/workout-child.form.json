@@ -18,7 +18,7 @@
                 "required": true
             }, "nested": {
                 "controls": [{
-                    "name": "map-key",
+                    "name": "key",
                     "label": "Exercise Name",
                     "value": "",
                     "type": "text",
@@ -28,20 +28,12 @@
                     }
                 },
                 {
-                    "name": "map-value",
+                    "name": "value",
                     "label": "Exercise",
                     "value": "",
                     "type": "select",
                     "validators": {
                         "required": true
-                    }
-                },
-                {
-                    "name": "map",
-                    "label": "",
-                    "value": "",
-                    "type": "hidden",
-                    "validators": {
                     }
                 }]
             }

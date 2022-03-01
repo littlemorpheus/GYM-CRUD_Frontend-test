@@ -100,24 +100,29 @@ export class WorkoutComponent implements OnInit {
     console.log("this.movement_patterns.length: " +this.movement_patterns.length)
     console.log("this.current_workout?.sections.length: " +this.current_workout?.sections.length)
     if (this.movement_patterns.length == this.current_workout?.sections.length) this.onWorkoutDone()
+    this.current_exercise = null;
 
     this.newMovementPattern();
   }
   onWorkoutDone() {
     //workout = (workout_plan: workout plan id, completed_sections: [movement pattern])#
-    var workout = {
-      workout_plan: this.current_workout?._id,
-      completed_sections: this.movement_patterns
+    var workout: WorkoutEntry = {
+      workout_plan: this.current_workout?._id || '',
+      completed: this.movement_patterns,
+      notes: ''
       //is movement_patterns[] being global good?
     }
+    this.workout = workout;
     this.workoutDone = true;
     console.log("WORKOUT DONE")
     
   }
   onDone() {
     /* POST workout to as Workout entry */
-    if (!this.workout) return;
-    this._Itemreterieval.addWorkoutEntry(this.workout);
+    if (!this.workout) return
+    this._Itemreterieval.addWorkoutEntry(this.workout).subscribe(
+      data=> console.log("res: " + data)
+    );
 
   }
 
@@ -159,7 +164,7 @@ export class WorkoutComponent implements OnInit {
   }
   setWorkout(item: Workout) {
     this.newMovementPattern()/* new Movement Pattern to be picked */
-    this.TITLE  = item.name;/* Set title */
+    this.TITLE = item.name;/* Set title */
     this.canChangeWorkout = false;/* Can no longer change Workout */
     this._Itemreterieval.getWorkout(item._id, 2).subscribe(
       data => {

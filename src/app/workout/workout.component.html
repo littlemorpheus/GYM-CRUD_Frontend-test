@@ -36,8 +36,8 @@
                     <li *ngFor="let jtem of item!.variations" >
                         
                         <!--[string, Exercise]-->
-                        {{output(getDict(jtem))}}
-                        <span (click)="setExercise(getDict(jtem)[1])">{{getDict(jtem)[0]}}</span>
+                        {{output(jtem)}}
+                        <span (click)="setExercise(jtem.value)">{{jtem.key}}</span>
                     
                     </li>
 
@@ -76,6 +76,8 @@
 </div>
 <div *ngIf="workoutDone">
     <h1>WORKOUT DONEZO</h1>
+    <p>{{workout | json}}</p>
+    <button (click) = "onDone()">Submit Workout</button>
 </div>
 
 
