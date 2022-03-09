@@ -16,6 +16,8 @@
     </div>
 </div>
 
+<hr>
+
 <!--Dynamic: [ITEM] depends on workout-->
 <nav *ngIf="current_workout?.sections && !workoutDone">
     <!-- IF current workout has movement patterns too it-->
@@ -47,26 +49,28 @@
     </ul>
 </nav>
 
+<hr>
+
 <!--        Exercise Widget        -->
 <div *ngIf="current_exercise && !workoutDone">
-
-    <!--Dynamic: X chnages with reps-->
-    <hr>
+    <ul>
+        <!--Dynamic: X chnages with reps-->
     <h3>{{current_exercise!.name}}</h3>
     <h1><span id="progress-field">{{progress}}</span><span>/</span><span>70</span></h1>
     <!--
     Entered reps on press of button is summed into X
         X for easch saved in session via JS
 -->
-    <form (submit)="onSetDone($event)">
-        <ul>
-            <li>
-                <input type="number" min="0" max="125" name="prog">
-                <input type="submit" value="Set Done">
-            </li>
-        </ul>
-    </form>
-    <li><button (click)="onMovementPatternDone()" [disabled] = "!setDone">Movement Pattern Done</button></li>
+        <form (submit)="onSetDone($event)">
+            <ul>
+                <li>
+                    <input type="number" min="0" max="125" name="prog">
+                    <input type="submit" value="Set Done">
+                </li>
+            </ul>
+        </form>
+        <li><button id="mv-btn" (click)="onMovementPatternDone()" [disabled] = "!setDone">Movement Pattern Done</button></li>
+    </ul>
 </div>
 
 <br>

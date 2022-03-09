@@ -1,11 +1,29 @@
 ul
+    display: flex
+    flex-direction: column
     margin: 10px 20px
     list-style: none
-
+    align-content: center
+    
     li
+        margin: 10px auto
+        width: 80%
+        padding:  10px
+
+        text-align: left
         text-transform: capitalize
-        padding: 0 10px
+        font-weight: 550
+        
+        border: 1px solid black
+        border-radius: 5px
+            
         &#add_item
             cursor: pointer
+            text-align: center
             &:hover
-                border: 1px solid black
+                border: 1px solid blac
+        
+        #removebtn
+            float: right
+            color: red
+            font-weight: 900

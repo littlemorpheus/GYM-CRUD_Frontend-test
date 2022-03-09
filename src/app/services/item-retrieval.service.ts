@@ -18,7 +18,7 @@ export class ItemRetrievalService {
     private http: HttpClient
   ) { }
 
-  private _apiURL = 'http://localhost:4242/api/'
+  private _apiURL = '/api/'
   private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type':  'application/json',

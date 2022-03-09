@@ -4,6 +4,7 @@
     <ul>
         <!--form_data - data for forms-->
         <!--myForm - the actual form-->
+        
         <li *ngFor="let control of form_data?.controls">
             <label> {{control.label}} |{{control.name}}| </label>
             <label *ngIf="isRange(control.type) "> ({{myForm.get(control.name)?.value}}) </label>
@@ -40,7 +41,7 @@
             
             <!--Nested (for Exercises in Movement Pattern)-->
             <!-- Nested (for Movement Pattern in Workout) -->
-            <div 
+            <ul 
             class="nested"
             *ngIf="isNested(control.type)"
             [formArrayName]="control.name"
@@ -54,7 +55,7 @@
                 <li class="nested-entry" *ngFor="let nestedForm of nestedForms.controls; let i = index" [formGroupName]="i">
                     <!--[{map-key: map-value}, ...]-->
                     <!-- nestedForm - Every replicated Form Group for varations-->
-                    <div class="nested-element" *ngFor="let nestedControl of control!.nested?.controls">
+                    <div class="nested-element dynamic" *ngFor="let nestedControl of control!.nested?.controls">
                         <!--[map-key, map-value]-->
                         <!--nested_controls - Each Form control-->
                         
@@ -86,11 +87,11 @@
 
                     </div>
                     <!--Delete One of the nested form groups-->
-                    <button class="nested-element" (click)="delNested(i)">Delete</button>
+                    <button class="nested-element btn" (click)="delNested(i)">Delete</button>
                 </li>
                 <!--Add a nested form group-->
                 <li class="nested-entry"><button (click)="addNested()" >Add {{control.label}}</button></li>
-            </div>
+            </ul>
         </li>
         <li><button (click)="onSubmit()" [disabled]="myForm.invalid">Submit</button></li>
     </ul>
