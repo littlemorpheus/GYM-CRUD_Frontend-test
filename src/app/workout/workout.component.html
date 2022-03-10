@@ -8,7 +8,7 @@
     <h1>Workout:</h1>
     <div class="dropdown">
         <button class="dropbtn">
-            <h1 id="picked_workout">{{TITLE}}</h1>
+            <h1 id="picked_workout" ><span *ngIf=!TITLE>Options</span>{{TITLE}}</h1>
         </button>
         <div *ngIf="canChangeWorkout" class="dropdown-content">
             <div class="links" *ngFor="let item of workout_list" (click)="setWorkout(item)">{{item.name}}</div>
@@ -21,7 +21,6 @@
 <!--Dynamic: [ITEM] depends on workout-->
 <nav *ngIf="current_workout?.sections && !workoutDone">
     <!-- IF current workout has movement patterns too it-->
-
     <ul class="children-list">
         <div *ngFor="let item of current_workout!.sections">
             <!-- FOR Loop through Movement Pattern in Workout Plan-->
@@ -30,7 +29,7 @@
             >
                 <span>{{item.name}}</span>
                 <ul 
-                    *ngIf="current_movement_pattern==item"
+                    *ngIf="compare(current_movement_pattern, item)"
                     class="exercise-list"
                 >
                     {{output(item)}}
