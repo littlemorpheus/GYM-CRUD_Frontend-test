@@ -35,10 +35,6 @@ export class WorkoutComponent implements OnInit {
 
   _setCounter: number = 0;
   _repCounter: number = 0;
-
-  current_workout: Workout1 | null = null;
-  current_movement_pattern: MovementPattern1 | null = null;
-  current_exercise: Exercise | null = null;
   
   _workout: WorkoutEntry;
   _min_prog: number = 50;//dont want a defualt value
@@ -52,6 +48,11 @@ export class WorkoutComponent implements OnInit {
         this.canChangeWorkout = true;
       }
     )
+
+    //These essentially do nothing its just for readability
+    this.set('current exercise', null);
+    this.set('current movement pattern', null);
+    this.set('current workout', null);
   }
 
   showMovementPatternDone(movement_pattern: MovementPattern1): boolean {
@@ -100,7 +101,7 @@ export class WorkoutComponent implements OnInit {
     console.log("this.movement_patterns.length: " +this.movement_patterns.length)
     console.log("this.current_workout?.sections.length: " +this.current_workout?.sections.length)
     if (this.movement_patterns.length == this.current_workout?.sections.length) this.onWorkoutDone()
-    this.current_exercise = null;
+    this.set('current exercise', null)
 
     this.newMovementPattern();
   }
@@ -143,7 +144,7 @@ export class WorkoutComponent implements OnInit {
 
   /*        Choosing a new [EXERCISE, MOVEMENT PATTERN, WORKOUT]        */
   setExercise(exercise: Exercise) { 
-    this.current_exercise = exercise;//Sets the current exercise globally
+    this.set('current exercise', exercise)
 
     /*
     *Once an Exercise for a Movement Pattern is choosen,
@@ -155,11 +156,11 @@ export class WorkoutComponent implements OnInit {
     if (this.canChangeChild) {
 
       if (this.current_movement_pattern == item) {
-        this.current_movement_pattern = null;
+        this.set('current movement pattern', null)
         return
       } 
-
-      this.current_movement_pattern = item;
+      console.log(this.current_movement_pattern)
+      this.set('current movement pattern', item)
     }
   }
   setWorkout(item: Workout) {
@@ -169,7 +170,7 @@ export class WorkoutComponent implements OnInit {
     this._Itemreterieval.getWorkout(item._id, 2).subscribe(
       data => {
         /* Retreieve Workout Plan Data */
-        this.current_workout = data 
+        this.set('current workout', data)
         console.log(this.current_workout)
       }
     )
@@ -188,5 +189,32 @@ export class WorkoutComponent implements OnInit {
   output(item: any) {
     console.log("Output Function: ")
     console.log(item)
+  }
+
+  /*                GETTERS & SETTER                */
+  set(key: string, item: any) {
+    if (item) { 
+      item = JSON.stringify(item) 
+      sessionStorage.setItem(key, item);
+    }
+    else { sessionStorage.removeItem(key); }
+  }
+  get current_workout(): Workout1 | null {
+    var item = sessionStorage.getItem('current workout');
+    var wo = null;
+    if (item) wo = JSON.parse(item)
+    return wo;
+  }
+  get current_movement_pattern(): MovementPattern1 | null {
+    var item = sessionStorage.getItem('current movement pattern');
+    var mv = null;
+    if (item) mv = JSON.parse(item)
+    return mv;
+  }
+  get current_exercise(): Exercise | null {
+    var item = sessionStorage.getItem('current exercise');
+    var ex = null;
+    if (item) ex = JSON.parse(item)
+    return ex;
   }
 }
