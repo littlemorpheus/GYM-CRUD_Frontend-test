@@ -2,7 +2,7 @@
 <!--Dynamic: dependibg on list-->
 
 <ul >
-    <li class="list-item" *ngFor="let item of list"><span>{{item.name}}</span><span id="removebtn">&#x2715;</span></li>
+    <li class="list-item" *ngFor="let item of list"><span>{{item.name}}</span><span id="removebtn" (click)="itemRemove(item)" *ngIf="!add_item">&#x2715;</span></li>
     <li>
         <div class="list-item" id="add_item" (click)="onClick()" *ngIf="!add_item && TITLE_REF[ITEM]"><span class="sm-chr">+</span>Add</div>
         <item-add *ngIf="add_item" (itemAdded) = "itemAdded($event)"></item-add>

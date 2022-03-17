@@ -71,4 +71,16 @@ export class ItemListComponent implements OnInit {
     if (event) this.internalOnInit();
   }
 
+  itemRemove(item: any) {
+    console.log(item);
+    var carry_on = window.confirm("This may cause problems with other items in other list, are you sure you want to delete " +item.name)
+    if (carry_on || !this.add_item) {
+      var ITEM = ITEM_REFRENCE[this.ITEM];
+      console.log("Delete")
+      this._Itemreterieval.del(item._id, ITEM)?.subscribe(
+        data=> {this.internalOnInit();}
+      )
+    } 
+  }
+
 }

@@ -156,6 +156,44 @@ export class ItemRetrievalService {
     )
   }
 
+  /*        DELETE        */
+  del(id: String, item: String) {
+    console.log(item)
+    switch (item) {
+      case 'exercises':
+        return this.delExercise(id);
+      case 'workout-sections':
+        return this.delMovementPattern(id);
+      case 'workouts':
+        return this.delWorkout(id);
+    }
+    return null
+  }
+  delWorkout(id: String) {
+    var url = this._apiURL + 'workout/' + id;
+    console.log(url)
+    return this.http.delete(url).pipe(
+      tap(_ => console.log("Deleted single  Workouts")),
+      catchError(this.errorHandler<Workout>(`Delete single workout | id=${id}`))
+    )
+  }
+  delMovementPattern(id: String) {
+    var url = this._apiURL + 'workout-child/' + id;
+    return this.http.delete(url).pipe(
+      tap(_ => console.log("Deleted single Workout Child")),
+      catchError(this.errorHandler<MovementPattern>(`Delete single workout child | id=${id}`))
+    )
+  }
+  delExercise(id: String) {
+    var url = this._apiURL + 'exercise/' + id;
+    return this.http.delete(url).pipe(
+      tap(_ => console.log("Deleted single Exercise")),
+      catchError(this.errorHandler<Exercise>(`Delete single exercise | id=${id}`))
+    )
+  }
+
+  
+
   
   /**
   * Handle Http operation that failed.
